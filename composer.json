@@ -1,0 +1,22 @@
+{
+    "name": "qlwz/mock",
+    "description": "Mock.js for php",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "情留メ蚊子",
+            "email": "qlwz@qq.com"
+            "homepage": "http://www.94qing.com",
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "qlwz\\mock\\": "src"
+        }
+    }
+}

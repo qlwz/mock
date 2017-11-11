@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock.js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="http://g.tbcdn.cn/thx/brix-release/0.1.0//bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://g.tbcdn.cn/thx/brix-release/0.1.0//brix-components/dist/css-tool/minecraft.css">
+</head>
+<body>
+    <div class="examples-nav">
+        <div class="container">
+            <a href="http://mockjs.com/">Mock.js </a>
+            <a href="http://www.94qing.com/">Mock.js for php </a>
+            <a href="https://github.com/qlwz/mock" target="_blank">github </a>
+        </div>
+    </div>
+    <div class="container" style="padding: 20px; margin-bottom: 20px;">
+        <span class="fontsize-20">示例</span>
+    </div>
+    <div id="examples" class="container definition">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="mb10">
+                    <a href="#DTD" class="fontsize-16" data-scroll>数据模板定义<!-- Data Template Definition, DTD --></a>
+                </div>
+                <ul class="catalog">
+                    <?php foreach ($dtd as $type => $item): ?>
+                    <li>
+                        <div><a href="#<?php echo $type; ?>" data-scroll><?php echo $type; ?></a></div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <div class="mb10">
+                    <a href="#DPD" class="fontsize-16" data-scroll>数据占位符定义 <!-- Data Placeholder Definition, DPD --></a>
+                </div>
+                <ul class="catalog">
+                    <?php foreach ($dpd as $type => $methods): ?>
+                    <li>
+                        <div class="mb10">
+                            <a href="#<?php echo $type; ?>"><?php echo $type; ?></a>
+                        </div>
+                        <?php foreach ($methods as $method => $demos): ?>
+                        <div>
+                            <a href="#<?php echo $method; ?>" data-scroll> <?php echo explode('(', substr($method, 12))[0]; ?> </a>
+                        </div>
+                        <?php endforeach; ?>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div class="col-sm-10">
+                <div id="DTD" class="fontsize-20 mb40">数据模板定义 <!-- Data Template Definition, DTD --></div>
+                <div class="definition">
+                    <?php foreach ($dtd as $type => $signatures): ?>
+                    <div class="mb40">
+                        <div id="<?php echo $type; ?>" class="fontsize-16 mb40"><?php echo $type; ?></div>
+                        <?php foreach ($signatures as $signature => $demos): ?>
+                        <div class="mb20">
+                            <div id="<?php echo $signature; ?>" class="fontsize-14 mb20"><code><?php echo $signature; ?></code></div>
+                            <?php foreach ($demos as $index => $demo): ?>
+                            <div class="mb20">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="code">
+                                            <span class="badge">Data Template</span>
+                                            <pre><code class="javascript">Mock::mock(<?php echo $demo; ?>)</code></pre>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="result">
+                                            <span class="badge">Result</span>
+                                            <pre><code class="javascript"><?php echo mock_dtd_examples($demo); ?></code></pre>
+                                            <a href="javascript:void(0);" onclick="reloadMock(this, 'dtd', '<?php echo $type; ?>', '<?php echo str_replace("'", "\'",$signature); ?>', '<?php echo $index; ?>');" class="mockicon rerun"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div id="DPD" class="fontsize-20 mb40">数据占位符定义 <!-- Data Placeholder Definition, DPD --></div>
+                <div class="definition">
+                    <?php foreach ($dpd as $type => $signatures): ?>
+                    <div class="mb20">
+                        <div id="<?php echo $type; ?>" class="fontsize-16 mb20"><?php echo $type; ?></div>
+                        <?php foreach ($signatures as $signature => $demos): ?>
+                        <div class="mb20">
+                            <div id="<?php echo $signature; ?>" class="fontsize-14 mb20"><code><?php echo $signature; ?></code></div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="code">
+                                        <span class="badge">Data Template</span>
+                                        <pre><code class="javascript"><?php echo join("\n", $demos); ?></code></pre>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="result">
+                                        <span class="badge">Result</span>
+                                        <?php if (strstr($signature, 'dataImage( size?, text? )') || strstr($signature, 'image( size?, background?, foreground?, format?, text? )')): ?>
+                                        <div>
+                                            <?php echo join('', mock_dpd_examples_img($demos)); ?>
+                                        </div>
+                                        <a href="javascript:void(0);" onclick="reloadMock(this, 'dpd', '<?php echo $type; ?>', '<?php echo $signature; ?>', 0);" class="mockicon rerun"></a>
+                                        <?php else: ?>
+                                        <div>
+                                            <pre><code class="javascript"><?php echo JSON_stringify(mock_dpd_examples($demos)); ?></code></pre>
+                                            <a href="javascript:void(0);" onclick="reloadMock(this, 'dpd', '<?php echo $type; ?>', '<?php echo $signature; ?>', 0);" class="mockicon rerun"></a>
+                                        </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="//apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="//apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script type="text/javascript" src="smooth-scroll.min.js"></script>
+<script type="text/javascript">
+function reloadMock(the, obj, type, name, index) {
+    $.post('<?php echo $url; ?>', {
+        obj: obj,
+        type: type,
+        name: name,
+        index: index
+    },
+    function(data) {
+        if (data.code != 1) {
+            return;
+        }
+        if (obj == 'dtd') {
+            var code = $(the).prev().find('code').text(data.data)
+        } else if (obj == 'dpd') {
+            var code = $(the).prev().find('code');
+            if (code.length) {
+                var results = [];
+                $.each(data.data,
+                function(index, cmd) {
+                    if (cmd === '' || (typeof cmd === 'string' && cmd.indexOf('//') === 0)) {
+                        results.push(cmd)
+                    } else {
+                        results.push(JSON.stringify(cmd))
+                    }
+                });
+                code.text(results.join('\n'))
+            } else {
+                $(the).prev().html(data.data.join(''))
+            }
+        }
+        if (code && code[0]) {
+            hljs.highlightBlock(code[0])
+        }
+    },
+    'json')
+}
+var scroll = new SmoothScroll('a[href*="#"]');
+$(document).ready(function() {
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block)
+    })
+})
+</script>
+</html>
