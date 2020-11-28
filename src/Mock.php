@@ -282,7 +282,7 @@ class Mock
                 $placeholders = $placeholders[0];
                 foreach ($placeholders as $k => $ph) {
                     // 遇到转义斜杠，不需要解析占位符
-                    if ($ph{0} == '\\') {
+                    if ($ph[0] == '\\') {
                         $result = Util::str_replace_once($ph, '[\@-PLACEHOLDER-\@]' . substr($ph, 2), $result);
                         unset ($placeholders[$k]);
                         continue;
@@ -346,7 +346,7 @@ class Mock
 
         $pathParts = Util::splitPathToArray($key);
         // 绝对路径 or 相对路径
-        if ($key{0} === '/' || count($pathParts) > 1) {
+        if ($key[0] === '/' || count($pathParts) > 1) {
             return self::getValueByKeyPath($key, $context);
         }
 
@@ -402,7 +402,7 @@ class Mock
         $keyPathParts      = Util::splitPathToArray($key);
         $absolutePathParts = [];
 
-        if ($key{0} === '/') { // 绝对路径
+        if ($key[0] === '/') { // 绝对路径
             $absolutePathParts = array_merge([$context->path[0]], Util::normalizePath($keyPathParts));
         } else {// 相对路径
             if (count($keyPathParts) > 1) {
